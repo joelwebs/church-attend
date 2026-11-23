@@ -1,0 +1,25 @@
+
+# Django framework
+Django>=5.2,<5.3
+djangorestframework>=3.16,<4.0
+
+# PostgreSQL
+psycopg[binary]>=3.2,<4.0
+
+# Environment configuration
+django-environ>=0.12,<1.0
+
+# API documentation
+drf-spectacular>=0.28,<1.0
+
+# Production server and static files
+gunicorn>=23,<24
+whitenoise>=6.9,<7.0
+
+# QR code generation
+qrcode[pil]>=8,<9
+
+# Google Sheets integration
+google-api-python-client>=2,<3
+google-auth>=2,<3
+google-auth-httplib2>=0.2,<1
