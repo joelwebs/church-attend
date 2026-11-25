@@ -1,9 +1,17 @@
+import uuid
+
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
 
 class Member(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+
     membership_number = models.CharField(
         max_length=30,
         unique=True,
@@ -65,7 +73,7 @@ class Member(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return self.full_name
 
     @property
     def full_name(self):
