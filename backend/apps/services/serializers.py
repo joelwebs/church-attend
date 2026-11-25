@@ -1,8 +1,5 @@
-
 from rest_framework import serializers
-
 from .models import Service, ServiceQRToken
-
 
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:

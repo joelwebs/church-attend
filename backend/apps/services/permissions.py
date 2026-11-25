@@ -1,6 +1,5 @@
 from rest_framework.permissions import BasePermission
 
-
 class IsChurchStaff(BasePermission):
     message = "You are not authorized to manage services."
 
