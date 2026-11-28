@@ -1,0 +1,104 @@
+
+/* Back Button */
+.form-header .back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 13px;
+  margin-bottom: 22px;
+  border: 1px solid #dbe1ea;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.form-header .back-button:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+/* Registration icon */
+.form-title-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 15px;
+  border-radius: 12px;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+/* Members registration modal form */
+
+.member-modal .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.member-modal .form-group input {
+  min-height: 43px;
+  padding: 10px 12px;
+  border: 1px solid #dbe1ea;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  outline: none;
+}
+
+.member-modal .form-group input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.member-modal .form-group input::placeholder {
+  color: #94a3b8;
+}
+
+.member-modal-actions .members-add-button {
+  color: #ffffff;
+}
+
+@media (max-width: 600px) {
+  .members-header > div {
+    width: 100%;
+  }
+
+  .members-header > .members-add-button {
+    width: 100%;
+  }
+}
+
+/* Form button alignment */
+.form-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Disabled cancel link */
+.form-actions .button-secondary[aria-disabled="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .form-header .back-button {
+    margin-bottom: 18px;
+  }
+
+  .form-title-icon {
+    width: 42px;
+    height: 42px;
+  }
+}
