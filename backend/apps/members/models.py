@@ -21,6 +21,7 @@ class Member(models.Model):
 
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+
     other_names = models.CharField(
         max_length=150,
         blank=True,
@@ -38,6 +39,21 @@ class Member(models.Model):
     )
 
     is_active = models.BooleanField(default=True)
+
+    # Soft deletion
+    is_deleted = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
+    deleted_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="members_deleted",
+    )
 
     # Audit information
     created_by = models.ForeignKey(
@@ -70,6 +86,10 @@ class Member(models.Model):
                 fields=["is_active"],
                 name="member_active_idx",
             ),
+            models.Index(
+                fields=["is_deleted"],
+                name="member_deleted_idx",
+            ),
         ]
 
     def __str__(self):
@@ -78,7 +98,8 @@ class Member(models.Model):
     @property
     def full_name(self):
         return " ".join(
-            part for part in [
+            part
+            for part in [
                 self.first_name,
                 self.other_names,
                 self.last_name,

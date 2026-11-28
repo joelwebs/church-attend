@@ -1,0 +1,104 @@
+
+.app-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.app-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.app-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button-small {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+.button-medium {
+  padding: 11px 18px;
+}
+
+.button-large {
+  padding: 14px 24px;
+  font-size: 15px;
+}
+
+/* Variants */
+.button-primary {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.button-primary:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.button-secondary {
+  background: #e9eef5;
+  color: #334155;
+}
+
+.button-secondary:hover:not(:disabled) {
+  background: #dce4ee;
+}
+
+.button-danger {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.button-danger:hover:not(:disabled) {
+  background: #b91c1c;
+}
+
+.button-success {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.button-success:hover:not(:disabled) {
+  background: #15803d;
+}
+
+.button-outline {
+  background: #ffffff;
+  color: #334155;
+  border-color: #dbe1ea;
+}
+
+.button-outline:hover:not(:disabled) {
+  background: #f8fafc;
+}
+
+.button-ghost {
+  background: transparent;
+  color: #475569;
+}
+
+.button-ghost:hover:not(:disabled) {
+  background: #f1f5f9;
+}
+
+/* Loading animation */
+.button-spinner {
+  animation: button-spin 1s linear infinite;
+}
+
+@keyframes button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

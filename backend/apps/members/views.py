@@ -1,3 +1,6 @@
+
+from django.utils import timezone
+
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
@@ -26,6 +29,7 @@ class MemberViewSet(viewsets.ModelViewSet):
         "post",
         "put",
         "patch",
+        "delete",
         "head",
         "options",
     ]
@@ -54,7 +58,11 @@ class MemberViewSet(viewsets.ModelViewSet):
     ordering = ["last_name", "first_name"]
 
     def get_queryset(self):
-        queryset = Member.objects.all()
+        # Archived endpoint and restore action can access archived members.
+        if self.action in ["archived", "restore"]:
+            queryset = Member.objects.filter(is_deleted=True)
+        else:
+            queryset = Member.objects.filter(is_deleted=False)
 
         active_filter = self.request.query_params.get("is_active")
 
@@ -76,6 +84,72 @@ class MemberViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)
 
+    def perform_destroy(self, instance):
+        # Soft delete: preserve the database record.
+        instance.is_deleted = True
+        instance.is_active = False
+        instance.deleted_at = timezone.now()
+        instance.deleted_by = self.request.user
+        instance.updated_by = self.request.user
+
+        instance.save(
+            update_fields=[
+                "is_deleted",
+                "is_active",
+                "deleted_at",
+                "deleted_by",
+                "updated_by",
+                "updated_at",
+            ]
+        )
+
+    @action(detail=False, methods=["get"])
+    def archived(self, request):
+        """Return archived members."""
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+    @action(detail=True, methods=["post"])
+    def restore(self, request, pk=None):
+        """Restore an archived member."""
+        member = self.get_object()
+
+        member.is_deleted = False
+        member.deleted_at = None
+        member.deleted_by = None
+        member.updated_by = request.user
+
+        # Keep the member inactive until staff explicitly activates them.
+        member.is_active = False
+
+        member.save(
+            update_fields=[
+                "is_deleted",
+                "deleted_at",
+                "deleted_by",
+                "updated_by",
+                "is_active",
+                "updated_at",
+            ]
+        )
+
+        return Response(
+            {
+                "message": "Member restored successfully.",
+                "member": self.get_serializer(member).data,
+            },
+            status=status.HTTP_200_OK,
+        )
+
     @action(detail=True, methods=["post"])
     def deactivate(self, request, pk=None):
         member = self.get_object()
@@ -83,6 +157,7 @@ class MemberViewSet(viewsets.ModelViewSet):
         if member.is_active:
             member.is_active = False
             member.updated_by = request.user
+
             member.save(
                 update_fields=[
                     "is_active",
@@ -105,6 +180,7 @@ class MemberViewSet(viewsets.ModelViewSet):
         if not member.is_active:
             member.is_active = True
             member.updated_by = request.user
+
             member.save(
                 update_fields=[
                     "is_active",
