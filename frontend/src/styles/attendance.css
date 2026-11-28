@@ -1,0 +1,36 @@
+
+.page-container {
+  min-height: 100vh;
+  padding: 35px;
+  background: #f5f7fb;
+}
+
+.page-header {
+  margin-bottom: 25px;
+}
+
+.page-header h1 {
+  font-size: 28px;
+  color: #172033;
+  margin-bottom: 8px;
+}
+
+.page-header p {
+  color: #64748b;
+}
+
+.page-card {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.page-card h2 {
+  margin-bottom: 12px;
+  color: #172033;
+}
+
+.page-card p {
+  color: #64748b;
+}

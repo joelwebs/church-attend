@@ -1,11 +1,15 @@
+
 from rest_framework import serializers
+
 from .models import Member
+
 
 class MemberSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(read_only=True)
 
     class Meta:
         model = Member
+
         fields = [
             "id",
             "membership_number",
@@ -17,6 +21,9 @@ class MemberSerializer(serializers.ModelSerializer):
             "email",
             "date_joined",
             "is_active",
+            "is_deleted",
+            "deleted_at",
+            "deleted_by",
             "created_by",
             "updated_by",
             "created_at",
@@ -26,6 +33,9 @@ class MemberSerializer(serializers.ModelSerializer):
         read_only_fields = [
             "id",
             "full_name",
+            "is_deleted",
+            "deleted_at",
+            "deleted_by",
             "created_by",
             "updated_by",
             "created_at",
